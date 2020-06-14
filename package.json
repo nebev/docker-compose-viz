@@ -1,0 +1,36 @@
+{
+  "name": "docker-compose-viz",
+  "description": "Docker Compose Viz",
+  "author": "Ben Evans",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nebev/docker-compose-viz"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "match-all": "^1.2.5",
+    "mkdirp": "^1.0.4",
+    "moment": "^2.26.0",
+    "node-docker-api": "^1.1.22",
+    "yaml": "^1.10.0"
+  },
+  "keywords": [
+    "docker",
+    "compose",
+    "docker-compose",
+    "gui"
+  ],
+  "bin":{
+    "dcv": "./bin/dcv"
+  },
+  "bugs": {
+    "url": "https://github.com/nebev/docker-compose-viz/issues"
+  },
+  "homepage": "https://github.com/nebev/docker-compose-viz",
+  "engines": {
+    "node": ">=10.0"
+  }
+}
