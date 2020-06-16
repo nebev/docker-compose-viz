@@ -36,7 +36,7 @@ const docker = new Docker({ socketPath: '/var/run/docker.sock' });
       images.map(a => a.data),
       composeFileSettings.services,
       nameOverrides,
-      path.dirname(baseComposeFilePath).split('/').pop(),
+      path.dirname(baseComposeFilePath[0]).split('/').pop(),
     );
   };
 
@@ -131,7 +131,7 @@ const docker = new Docker({ socketPath: '/var/run/docker.sock' });
   });
 
   listeners.on('up', async () => {
-    const tmpComposePath = `${path.dirname(baseComposeFilePath)}/_tmp_docker_compose_vis.yml`;
+    const tmpComposePath = `${path.dirname(baseComposeFilePath[0])}/_tmp_docker_compose_vis.yml`;
     await compose.writeTmpCompose(
       tmpComposePath,
       composeFileSettings,
@@ -141,18 +141,24 @@ const docker = new Docker({ socketPath: '/var/run/docker.sock' });
     console.log(`Running ${command.join(' ')}`);
     const child = screen.spawn(command[0], command.slice(1));
     child.on('close', async (exitCode) => {
-      await compose.cleanupTmpComposeFile(tmpComposePath);
       if (exitCode !== 0) { process.exit(exitCode); }
+      await compose.cleanupTmpComposeFile(tmpComposePath);
     });
   });
 
   listeners.on('down', async () => {
+    const tmpComposePath = `${path.dirname(baseComposeFilePath[0])}/_tmp_docker_compose_vis.yml`;
+    await compose.writeTmpCompose(
+      tmpComposePath,
+      composeFileSettings,
+    );
     screen.leave();
-    const command = ['docker-compose', '-f', baseComposeFilePath, 'down'];
+    const command = ['docker-compose', '-f', tmpComposePath, 'down'];
     console.log(`Running ${command.join(' ')}`);
     const child = screen.spawn(command[0], command.slice(1));
     child.on('close', async (exitCode) => {
       if (exitCode !== 0) { process.exit(exitCode); }
+      await compose.cleanupTmpComposeFile(tmpComposePath);
     });
   });
 
@@ -169,12 +175,18 @@ const docker = new Docker({ socketPath: '/var/run/docker.sock' });
   });
 
   listeners.on('build', async (serviceName) => {
+    const tmpComposePath = `${path.dirname(baseComposeFilePath[0])}/_tmp_docker_compose_vis.yml`;
+    await compose.writeTmpCompose(
+      tmpComposePath,
+      composeFileSettings,
+    );
     screen.leave();
-    const command = ['docker-compose', '-f', baseComposeFilePath, 'build', serviceName];
+    const command = ['docker-compose', '-f', tmpComposePath, 'build', serviceName];
     console.log(`Running ${command.join(' ')}`);
     const child = screen.exec(command[0], command.slice(1));
     child.on('close', async (exitCode) => {
       if (exitCode !== 0) { process.exit(exitCode); }
+      await compose.cleanupTmpComposeFile(tmpComposePath);
     });
   });
 

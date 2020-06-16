@@ -59,6 +59,8 @@ By default, ``dcv`` will look for ``docker-compose.yml`` in the directory you ru
 }
 ```
 
+`composePath` can also be an array of docker-compose files. If you have multiple files with the same service name, order matters and the later file service definitions will overwrite those specified earlier.
+
 ## Contributing
 
 This project was written in a day. It's probably full of terrible bugs and gross inefficiencies. But *you* can help!
