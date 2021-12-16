@@ -51,6 +51,7 @@ module.exports = {
       row.push(lastBuilt);
       row.push(size);
       rows.push(row);
+      rows.sort((a, b) => a[0].localeCompare(b[0]));
 
       infoRow.container = selectedContainer;
       infoRows.push(infoRow)
