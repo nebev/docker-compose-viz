@@ -2,7 +2,7 @@
   "name": "docker-compose-viz",
   "description": "Docker Compose Viz",
   "author": "Ben Evans",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "index.js",
   "license": "MIT",
   "repository": {
