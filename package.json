@@ -15,7 +15,7 @@
     "mkdirp": "^1.0.4",
     "moment": "^2.26.0",
     "node-docker-api": "^1.1.22",
-    "yaml": "^1.10.0"
+    "yaml": "^2.2.2"
   },
   "keywords": [
     "docker",
